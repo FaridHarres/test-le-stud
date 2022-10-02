@@ -13,8 +13,8 @@ const data = {
   labels: ["Mon","Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
   datasets: [
     {
-      label: "Horaire journalier",
-      data : ["8", "8","3", "4","6","8","8"],
+      label: "Horaire total semaine: 29h/35h ",
+      data : ["8", "8","3", "4","6","0","0"],
       backgroundColor: ["rgba(75, 192, 192, 0.2)","rgba(75, 192, 192, 0.2)","rgba(255, 99, 132, 0.2)","rgba(255, 99, 132, 0.2)","rgba(54, 162, 235, 0.2)","rgba(75, 192, 192, 0.2)","rgba(75, 192, 192, 0.2)"]
     }
   ]
