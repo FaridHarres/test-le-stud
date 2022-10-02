@@ -1,10 +1,39 @@
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import Loader from "../../components/loader";
 import LoadingButton from "../../components/loadingButton";
 import api from "../../services/api";
+import {Bar, Line, Doughnut} from "react-chartjs-2"
+
+
+//chart 
+const data = {
+  labels: ["Mon","Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  datasets: [
+    {
+      label: "Horaire journalier",
+      data : ["8", "8","3", "4","6","8","8"],
+      backgroundColor: ["rgba(75, 192, 192, 0.2)","rgba(75, 192, 192, 0.2)","rgba(255, 99, 132, 0.2)","rgba(255, 99, 132, 0.2)","rgba(54, 162, 235, 0.2)","rgba(75, 192, 192, 0.2)","rgba(75, 192, 192, 0.2)"]
+    }
+  ]
+}
+
+const dataLine = {
+  labels: ["Jan","Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+  datasets: [
+    {
+      label: "Nombre de projet Réalisé",
+      data : ["2", "5","1", "6","1", "8","8", "2", "5","1"],
+      fill: false,
+      borderColor: 'rgb(75, 192, 192)',
+      tension: 0.1
+    }
+  ]
+}
+
+
 
 const NewList = () => {
   const [users, setUsers] = useState(null);
@@ -262,6 +291,23 @@ const UserCard = ({ hit, projects }) => {
           <p className="font-semibold text-lg">{hit.name}</p>
         </div>
       </div>
+      <div>
+      <div className="flex flex-wrap p-3 gap-4 text-black	">
+        <div className="w-full bg-[#ffffff] border border-[#E5EAEF] rounded-[16px] overflow-hidden">
+          <div className="flex gap-5 p-2">
+          </div>
+          <div className="mt-2 rounded-[10px] bg-[#fff] ">
+            <div className="overflow-x-auto">
+              <Bar data={data} />
+
+            </div>
+            <div className="overflow-x-auto mt-10">
+              <Line data={dataLine} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   );
 };
