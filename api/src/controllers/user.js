@@ -17,7 +17,10 @@ router.post("/signin", (req, res) => UserAuth.signin(req, res));
 router.post("/logout", (req, res) => UserAuth.logout(req, res));
 router.post("/signup", (req, res) => UserAuth.signup(req, res));
 
-router.get("/signin_token", passport.authenticate("admin", { session: false }), (req, res) => UserAuth.signinToken(req, res));
+router.get("/signin_token", passport.authenticate("admin", { session: false }), (req, res) => {
+  //console.log('je passe par la route signin_token');
+  return UserAuth.signinToken(req, res)
+});
 
 router.get("/available", passport.authenticate("admin", { session: false }), async (req, res) => {
   try {
@@ -33,6 +36,7 @@ router.get("/available", passport.authenticate("admin", { session: false }), asy
 router.get("/:id", async (req, res) => {
   try {
     const data = await UserObject.findOne({ _id: req.params.id });
+    //console.log(data, "back data")
     return res.status(200).send({ ok: true, data });
   } catch (error) {
     capture(error);

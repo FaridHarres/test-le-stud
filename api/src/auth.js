@@ -32,6 +32,7 @@ class Auth {
 
     try {
       const user = await this.model.findOne({ email });
+      //console.log(user);
       if (!user) return res.status(401).send({ ok: false, code: USER_NOT_EXISTS });
 
       const match = true; //await user.comparePassword(password);
@@ -39,6 +40,7 @@ class Auth {
 
       user.set({ last_login_at: Date.now() });
       await user.save();
+
 
       let cookieOptions = { maxAge: COOKIE_MAX_AGE, httpOnly: true };
       if (config.ENVIRONMENT === "development") {
@@ -59,11 +61,11 @@ class Auth {
 
   async signup(req, res) {
     try {
-      const { password, email, name } = req.body;
+      const { password, email, name, job_title } = req.body;
 
       if (password && !validatePassword(password)) return res.status(200).send({ ok: false, user: null, code: PASSWORD_NOT_VALIDATED });
 
-      const user = await this.model.create({ name, password, email });
+      const user = await this.model.create({ name, password, email, job_title });
       const token = jwt.sign({ _id: user._id }, config.secret, { expiresIn: JWT_MAX_AGE });
       const opts = { maxAge: COOKIE_MAX_AGE, secure: config.ENVIRONMENT === "development" ? false : true, httpOnly: false };
       res.cookie("jwt", token, opts);
@@ -89,9 +91,12 @@ class Auth {
 
   async signinToken(req, res) {
     try {
+
       const { user } = req;
+
       user.set({ last_login_at: Date.now() });
       const u = await user.save();
+     
       return res.status(200).send({ user, token: req.cookies.jwt, ok: true });
     } catch (error) {
       capture(error);
