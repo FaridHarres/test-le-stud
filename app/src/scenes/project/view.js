@@ -13,6 +13,10 @@ import api from "../../services/api";
 import ProgressBar from "../../components/ProgressBar";
 import SelectMonth from "./../../components/selectMonth";
 
+
+//import NBR HOURS PER WORKDAYS
+import { NB_HOURS_WORKING } from "../../constants";
+
 ChartJS.register(...registerables);
 
 export default function ProjectView() {
@@ -114,7 +118,7 @@ const Budget = ({ project }) => {
     })();
   }, []);
 
-  const total = activities.reduce((acc, cur) => acc + cur, 0);
+  const total = activities.reduce((acc, cur) => acc + cur.cost, 0);
   const budget_max_monthly = project.budget_max_monthly;
   const width = (100 * total) / budget_max_monthly || 0;
 
@@ -143,7 +147,7 @@ const Activities = ({ project }) => {
   }, [date, project]);
 
   const getTotal = () => {
-    return (activities.reduce((acc, a) => acc + a.total, 0) / 8).toFixed(2);
+    return (activities.reduce((acc, a) => acc + a.total, 0) / NB_HOURS_WORKING).toFixed(2);
   };
 
   return (
@@ -208,7 +212,7 @@ const Activities = ({ project }) => {
                                   />
                                   <div>{e.user}</div>
                                 </div>
-                                <div className="text-md italic font-normal">{(e.total / 8).toFixed(2)} days</div>
+                                <div className="text-md italic font-normal">{(e.total / NB_HOURS_WORKING).toFixed(2)} days</div>
                               </div>
                             </th>
                             {e.detail.map((f, j) => {
@@ -266,8 +270,8 @@ const Links = ({ project }) => {
           </a>
         </div>
       )}
-      {project.links.map((link) => (
-        <div className="group text-sm font-medium	text-blue-700 border-[1px] border-blue-700 rounded-full overflow-hidden">
+      {project.links.map((link, i) => (
+        <div key={i} className="group text-sm font-medium	text-blue-700 border-[1px] border-blue-700 rounded-full overflow-hidden">
           <a target="blank" href={link.url} className="break-words cursor-pointer text-blue-700 hover:text-white hover:bg-blue-700 flex hover:no-underline h-full">
             <div className="flex items-center bg-blue-700 py-1 px-2 rounded-r-full ">
               <IoIosLink className="group-hover:scale-110 text-white" />

@@ -11,7 +11,7 @@ import SelectMonth from "./../../components/selectMonth";
 import { getDaysInMonth } from "./utils";
 
 //import hours per day 
-import { NB_HOURS_PER_WORKDAY } from "../../constants";
+import { NB_HOURS_WORKING } from "../../constants";
 
 
 const Activity = () => {
@@ -112,8 +112,8 @@ const Activities = ({ date, user, project }) => {
     const n = [...activities];
     n[i].detail[j].value = value;
     n[i].total = n[i].detail.reduce((acc, b) => acc + b.value, 0);
-    n[i].cost = (n[i].total / NB_HOURS_PER_WORKDAY) * user.costPerDay;
-    n[i].value = (n[i].total / NB_HOURS_PER_WORKDAY) * (user.sellPerDay || 0);
+    n[i].cost = (n[i].total / NB_HOURS_WORKING) * user.costPerDay;
+    n[i].value = (n[i].total / NB_HOURS_WORKING) * (user.sellPerDay || 0);
     setActivities(n);
   }
 
@@ -132,7 +132,7 @@ const Activities = ({ date, user, project }) => {
   };
 
   const getTotal = () => {
-    return (activities.reduce((acc, a) => acc + a.total, 0) / NB_HOURS_PER_WORKDAY).toFixed(2);
+    return (activities.reduce((acc, a) => acc + a.total, 0) / NB_HOURS_WORKING).toFixed(2);
   };
 
   return (
@@ -190,9 +190,9 @@ const Activities = ({ date, user, project }) => {
                                 <div>{e.project}</div>
                               </div>
                               <div className="flex flex-col items-end">
-                                <div className="text-xs italic font-normal">{(e.total / NB_HOURS_PER_WORKDAY).toFixed(2)} days</div>
+                                <div className="text-xs italic font-normal">{(e.total / NB_HOURS_WORKING).toFixed(2)} days</div>
                                 <div className="text-[10px] italic font-normal">
-                                {getTotal() > 0 ? (((e.total / NB_HOURS_PER_WORKDAY).toFixed(2) / getTotal()) * 100).toFixed(2) : 0}%
+                                {getTotal() > 0 ? (((e.total / NB_HOURS_WORKING).toFixed(2) / getTotal()) * 100).toFixed(2) : 0}%
                                 </div>
                               </div>
                             </div>
