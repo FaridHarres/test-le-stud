@@ -12,9 +12,8 @@ const ProjectModel = require("../models/project");
   const arr = [];
   arr.push({ name: "User", email: "user@gmail.com", password: "123456", costPerDay: 250, sellPerDay: 400 });
 
-  for (let i = 0; i < arr.length; i++) {
-    await UserModel.create(arr[i]);
-  }
+  arr.forEach(async (user) => await UserModel.create(user));
+    
   console.log("END CREATE USERS");
 })();
 
